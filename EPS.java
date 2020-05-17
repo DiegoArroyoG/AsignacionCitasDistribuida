@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-public class EPS{
-    
-=======
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -36,5 +32,4 @@ public class EPS implements iEPS {
     public boolean verificarExistencia(String documento) throws RemoteException {
         return this.usuarios.containsKey(documento);
     }    
->>>>>>> 778303d1dc5dac4d6a61522241b2ce646aacd5e7
 }
