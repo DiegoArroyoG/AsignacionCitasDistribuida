@@ -1,3 +1,3 @@
-public class EPS {
+public class EPS{
     
 }
