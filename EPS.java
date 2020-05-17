@@ -1,16 +1,18 @@
 import java.io.File;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class EPS implements iEPS {
     String nombre;
-    Map<String, Usuario> usuarios = new HashMap<String, Usuario>();
+    HashMap<String, Usuario> usuarios = new HashMap<String, Usuario>();
 
-    public Map<String, Usuario> listaEPS() {
+    public EPS(String nombre){
+        this.nombre = nombre;
+        listaEPS();
+    }
+
+    public void listaEPS() {
         String[] line;
 
         try {
@@ -24,8 +26,7 @@ public class EPS implements iEPS {
             }
         } catch (Exception e){
             System.out.println("Mal");
-        }
-        return null;        
+        }      
     }
 
     @Override

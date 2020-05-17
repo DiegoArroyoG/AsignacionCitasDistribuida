@@ -11,5 +11,11 @@ public class IPS implements iIPS {
         
         return null;
     }
+
+    @Override
+    public boolean nuevaEPS(String ip) throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
+    }
     
 }
