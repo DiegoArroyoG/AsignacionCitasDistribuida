@@ -36,7 +36,10 @@ public class EPS implements iEPS {
     }
 
     @Override
-    public boolean verificarExistencia(String documento) throws RemoteException {
-        return this.usuarios.containsKey(documento);
+    public String verificarExistencia(String documento) throws RemoteException {
+        if(this.usuarios.containsKey(documento)){
+            return this.usuarios.get(documento).getEdad();
+        }
+        return "-1";
     }
 }
