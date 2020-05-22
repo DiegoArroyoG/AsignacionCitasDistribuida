@@ -10,10 +10,10 @@ public class IPS implements iIPS {
     HashMap<String, Integer> clientes = new HashMap<String, Integer>();
 
     @Override
-    public String asignarCita(String documento, String eps, String fiebre, String tos, String cansancio, String dolor,
+    public String asignarCita(String ip, String documento, String eps, String fiebre, String tos, String cansancio, String dolor,
             String difRespirar, String insPulmonar, String shockSeptico, String fallaOrganica, String patologia, String cirugia)
             throws RemoteException, NotBoundException {
-            
+        System.out.println(epses.get(eps));    
         Registry registry = LocateRegistry.getRegistry(epses.get(eps), 49153);
         iEPS rmiEps = (iEPS) registry.lookup("eps");
         int edad = Integer.parseInt(rmiEps.verificarExistencia(documento));
@@ -24,7 +24,6 @@ public class IPS implements iIPS {
             peso = rmiIns.evaluarPaciente(edad, fiebre.equalsIgnoreCase("si"), tos.equalsIgnoreCase("si"), cansancio.equalsIgnoreCase("si"), dolor.equalsIgnoreCase("si"), difRespirar.equalsIgnoreCase("si"), insPulmonar.equalsIgnoreCase("si"), shockSeptico.equalsIgnoreCase("si"), fallaOrganica.equalsIgnoreCase("si"), patologia.equalsIgnoreCase("si"), cirugia.equalsIgnoreCase("si"));
             return "Paciente de documento "+ documento + " tiene "+ edad + " años\n";
         }
-        
         return "Paciente no encontrado en dicha EPS";
     }
 
@@ -32,6 +31,7 @@ public class IPS implements iIPS {
     public boolean nuevaEPS(String nombre, String ip) throws RemoteException {
         // TODO Auto-generated method stub
         epses.put(nombre, ip);
+        System.out.println("->" + nombre + "->" + ip);
         return true;
     }
     

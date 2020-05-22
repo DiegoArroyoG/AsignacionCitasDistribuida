@@ -15,7 +15,7 @@ public class EPS implements iEPS {
         listaEPS();
         Registry registry = LocateRegistry.getRegistry(args[1], 49154);
         iIPS epsNueva = (iIPS) registry.lookup("ips");
-        epsNueva.nuevaEPS(args[2], this.nombre);
+        epsNueva.nuevaEPS(this.nombre, args[2]);
     }
 
     public void listaEPS() {
@@ -26,8 +26,8 @@ public class EPS implements iEPS {
             while (input.hasNextLine()) {       
                 line = input.nextLine().split(",");
                 if(line[0].equalsIgnoreCase(this.nombre)){
-                    Usuario u1 = new Usuario(line[1], line[3]);
-                    this.usuarios.put(line[2], u1);
+                    Usuario u1 = new Usuario(line[1].trim(), line[3].trim());
+                    this.usuarios.put(line[2].trim(), u1);
                 }
             }
         } catch (Exception e){
@@ -38,6 +38,7 @@ public class EPS implements iEPS {
     @Override
     public String verificarExistencia(String documento) throws RemoteException {
         if(this.usuarios.containsKey(documento)){
+            System.out.println("Funciono!");
             return this.usuarios.get(documento).getEdad();
         }
         return "-1";
