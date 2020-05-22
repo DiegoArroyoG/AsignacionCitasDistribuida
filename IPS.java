@@ -13,10 +13,10 @@ public class IPS implements iIPS {
     List<Cita> citas;
 
     @Override
-    public String asignarCita( String ip, String documento, String eps, String fiebre, String tos, String cansancio, String dolor,
+   public String asignarCita(String ip, String documento, String eps, String fiebre, String tos, String cansancio, String dolor,
             String difRespirar, String insPulmonar, String shockSeptico, String fallaOrganica, String patologia, String cirugia)
             throws RemoteException, NotBoundException {
-
+        System.out.println(epses.get(eps));
         Registry registry = LocateRegistry.getRegistry(epses.get(eps), 49153);
         iEPS rmiEps = (iEPS) registry.lookup("eps");
         int edad = Integer.parseInt(rmiEps.verificarExistencia(documento));
@@ -99,6 +99,7 @@ public class IPS implements iIPS {
     public boolean nuevaEPS(String nombre, String ip) throws RemoteException {
         // TODO Auto-generated method stub
         epses.put(nombre, ip);
+        System.out.println("->" + nombre + "->" + ip);
         return true;
     }
 

@@ -6,9 +6,9 @@ import java.rmi.registry.Registry;
 public class INS implements iINS {
 
     public INS(String[] args) throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(args[1], 49154);
+        Registry registry = LocateRegistry.getRegistry(args[0], 49154);
         iIPS epsNueva = (iIPS) registry.lookup("ips");
-        epsNueva.nuevaINS(args[2]);
+        epsNueva.nuevaINS(args[1]);
     }
 
     @Override

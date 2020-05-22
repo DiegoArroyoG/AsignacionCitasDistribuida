@@ -11,7 +11,6 @@ public class sIPS {
             iIPS rmiIPS = (iIPS) UnicastRemoteObject.exportObject(ips, 0);
             registry = LocateRegistry.getRegistry(49154);
             registry.bind("ips", rmiIPS);
-
         } catch (Exception e) {
             System.out.println("---" + e.getMessage());
         }
