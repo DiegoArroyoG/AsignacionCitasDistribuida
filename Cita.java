@@ -14,6 +14,9 @@ class Cita{
     {
         return this.prioritaria;
     }
+
+    String getIp()
+    {
+        return this.ip;
+    }
 }
-
-

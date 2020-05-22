@@ -68,7 +68,7 @@ public class IPS implements iIPS {
             }
             if(hora != this.citas.size())
             {
-                EnviarMensajeCambioCita(this.citas.get(hora));
+                EnviarMensajeCambioCita(this.citas.get(hora), this.citas.size());
                 Cita cp = this.citas.get(hora);
                 this.citas.set( hora, new Cita(ip, documento, prioritaria ) );
                 this.citas.add(cp);
@@ -77,9 +77,13 @@ public class IPS implements iIPS {
         return "se ha cuadrado una cita en " + hora + " horas";
     }
 
-    void EnviarMensajeCambioCita(Cita c)
+    void EnviarMensajeCambioCita(Cita c, int horas) throws RemoteException, NotBoundException {
     {
-        // TODO enviar mensaje al cliente
+
+        Registry registry = LocateRegistry.getRegistry(c.getIp(), 49155);
+        iCliente rmiCliente = (iCliente) registry.lookup("cliente");
+
+        rmiCliente.informacionCita("Se ha cambiado su cita dentro de " + horas + " horas");
     }
 
     // asignar una cita durante la semana
