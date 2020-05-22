@@ -60,11 +60,11 @@ public class IPS implements iIPS {
         {
             for( Cita c : this.citas )
             {
-                hora++;
                 if( !c.esPrioritaria() )
                 {
                     break;
                 }
+                hora++;
             }
             if(hora != this.citas.size())
             {
@@ -77,9 +77,8 @@ public class IPS implements iIPS {
         return "se ha cuadrado una cita en " + hora + " horas";
     }
 
-    void EnviarMensajeCambioCita(Cita c, int horas) throws RemoteException, NotBoundException 
+    void EnviarMensajeCambioCita(Cita c, int horas) throws RemoteException, NotBoundException
     {
-
         Registry registry = LocateRegistry.getRegistry(c.getIp(), 49155);
         iCliente rmiCliente = (iCliente) registry.lookup("cliente");
 
