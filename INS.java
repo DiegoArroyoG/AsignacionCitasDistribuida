@@ -30,7 +30,7 @@ public class INS implements iINS {
         if(cirugia){
             peso+=10;
         }
-
+        System.out.println("--------------------> " + peso);
         return peso;
     }
     

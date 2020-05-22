@@ -44,7 +44,7 @@ public class IPS implements iIPS {
         return "Paciente no encontrado en dicha EPS";
     }
 
-    String agregarCita(boolean prioritaria, String documento, String ip)
+    String agregarCita(boolean prioritaria, String documento, String ip) throws RemoteException, NotBoundException
     {
         int hora = 0;
         if(this.citas == null)
@@ -77,7 +77,7 @@ public class IPS implements iIPS {
         return "se ha cuadrado una cita en " + hora + " horas";
     }
 
-    void EnviarMensajeCambioCita(Cita c, int horas) throws RemoteException, NotBoundException {
+    void EnviarMensajeCambioCita(Cita c, int horas) throws RemoteException, NotBoundException 
     {
 
         Registry registry = LocateRegistry.getRegistry(c.getIp(), 49155);
@@ -89,12 +89,12 @@ public class IPS implements iIPS {
     // asignar una cita durante la semana
     // si el peso es superior a 70 alguna fecha, si es mayor a 90, es cita prioritaria
     // si es menor a 70 no es asigna cita
-    String evaluarPeso(int peso, String documento, int edad, String ip)
+    String evaluarPeso(int peso, String documento, int edad, String ip) throws RemoteException, NotBoundException
     {
         String retorno = "no se a cuadrado cita, al no tener sintomas (suficientemente riezgosos) ";
-        if( 70 < peso )
+        if( 70 <= peso )
         {
-            retorno = agregarCita( 90<peso , documento, ip);
+            retorno = agregarCita( 90<=peso , documento, ip);
         }
         return "Paciente de documento "+ documento + " tiene "+ edad + " años: " + retorno + "\n";
     }
