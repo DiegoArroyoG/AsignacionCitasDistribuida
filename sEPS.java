@@ -6,7 +6,7 @@ public class sEPS {
     public static void main(String[] args) {
         if(args.length>2){
             try {
-                Registry registry = LocateRegistry.createRegistry(49153);
+                Registry registry = LocateRegistry.createRegistry(Configuracion.EPS);
 
                 EPS eps = new EPS(args);
                 iEPS rmiEPS = (iEPS) UnicastRemoteObject.exportObject(eps, 0);

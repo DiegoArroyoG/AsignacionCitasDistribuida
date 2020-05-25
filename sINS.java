@@ -6,7 +6,7 @@ public class sINS {
     public static void main(String[] args) {
         if(args.length>1){
             try {
-                Registry registry = LocateRegistry.createRegistry(49152);
+                Registry registry = LocateRegistry.createRegistry(Configuracion.INS);
 
                 INS ins = new INS(args);
                 iINS rmiINS = (iINS) UnicastRemoteObject.exportObject(ins, 0);

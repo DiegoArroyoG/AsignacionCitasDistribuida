@@ -13,17 +13,17 @@ public class IPS implements iIPS {
     List<Cita> citas;
 
     @Override
-   public String asignarCita(String ip, String documento, String eps, String fiebre, String tos, String cansancio, String dolor,
-            String difRespirar, String insPulmonar, String shockSeptico, String fallaOrganica, String patologia, String cirugia)
-            throws RemoteException, NotBoundException {
+    public String asignarCita(String ip, int puerto, String documento, String eps, String fiebre, String tos, String cansancio, String dolor,
+                              String difRespirar, String insPulmonar, String shockSeptico, String fallaOrganica, String patologia, String cirugia)
+        throws RemoteException, NotBoundException {
         System.out.println(epses.get(eps));
-        Registry registry = LocateRegistry.getRegistry(epses.get(eps), 49153);
+        Registry registry = LocateRegistry.getRegistry(epses.get(eps), Configuracion.EPS);
         iEPS rmiEps = (iEPS) registry.lookup("eps");
         int edad = Integer.parseInt(rmiEps.verificarExistencia(documento));
         int peso;
         // hacer validacion de peso
         if(edad!=-1){
-            registry = LocateRegistry.getRegistry(insIP, 49152);
+            registry = LocateRegistry.getRegistry(insIP, Configuracion.INS);
             iINS rmiIns = (iINS) registry.lookup("ins");
             peso = rmiIns.evaluarPaciente(
                     edad,
@@ -38,23 +38,22 @@ public class IPS implements iIPS {
                     patologia.equalsIgnoreCase("si"),
                     cirugia.equalsIgnoreCase("si")
                     );
-            return evaluarPeso(peso, documento, edad, ip);
+            return evaluarPeso(peso, documento, edad, ip, puerto);
             // return "Paciente de documento "+ documento + " tiene "+ edad + " años\n";
         }
         return "Paciente no encontrado en dicha EPS";
     }
 
-    String agregarCita(boolean prioritaria, String documento, String ip) throws RemoteException, NotBoundException
+    String agregarCita(boolean prioritaria, String documento, String ip, int puerto) throws RemoteException, NotBoundException
     {
+        // por si acaso
+        if(this.citas == null) this.citas = new ArrayList<Cita>();
+
         int hora = 0;
-        if(this.citas == null)
-        {
-            this.citas = new ArrayList<Cita>();
-        }
 
         if (citas.isEmpty() || !prioritaria)
         {
-            citas.add(new Cita(ip, documento, prioritaria) );
+            citas.add(new Cita(ip, puerto, documento, prioritaria) );
         }
         else // esta es prioritaria
         {
@@ -70,7 +69,7 @@ public class IPS implements iIPS {
             {
                 EnviarMensajeCambioCita(this.citas.get(hora), this.citas.size());
                 Cita cp = this.citas.get(hora);
-                this.citas.set( hora, new Cita(ip, documento, prioritaria ) );
+                this.citas.set( hora, new Cita(ip, puerto, documento, prioritaria ) );
                 this.citas.add(cp);
             }
         }
@@ -79,7 +78,7 @@ public class IPS implements iIPS {
 
     void EnviarMensajeCambioCita(Cita c, int horas) throws RemoteException, NotBoundException
     {
-        Registry registry = LocateRegistry.getRegistry(c.getIp(), 49155);
+        Registry registry = LocateRegistry.getRegistry(c.getIp(), c.getPuerto());
         iCliente rmiCliente = (iCliente) registry.lookup("cliente");
 
         rmiCliente.informacionCita("Se ha cambiado su cita dentro de " + horas + " horas");
@@ -88,12 +87,12 @@ public class IPS implements iIPS {
     // asignar una cita durante la semana
     // si el peso es superior a 70 alguna fecha, si es mayor a 90, es cita prioritaria
     // si es menor a 70 no es asigna cita
-    String evaluarPeso(int peso, String documento, int edad, String ip) throws RemoteException, NotBoundException
+    String evaluarPeso(int peso, String documento, int edad, String ip, int puerto) throws RemoteException, NotBoundException
     {
-        String retorno = "no se a cuadrado cita, al no tener sintomas (suficientemente riezgosos) ";
+        String retorno = "no se a cuadrado cita, al no tener sintomas suficientemente riezgosos ";
         if( 70 <= peso )
         {
-            retorno = agregarCita( 90<=peso , documento, ip);
+            retorno = agregarCita( 90<=peso , documento, ip, puerto);
         }
         return "Paciente de documento "+ documento + " tiene "+ edad + " años: " + retorno + "\n";
     }

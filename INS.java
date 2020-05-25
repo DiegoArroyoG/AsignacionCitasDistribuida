@@ -6,13 +6,13 @@ import java.rmi.registry.Registry;
 public class INS implements iINS {
 
     public INS(String[] args) throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(args[0], 49154);
+        Registry registry = LocateRegistry.getRegistry(args[0], Configuracion.IPS);
         iIPS epsNueva = (iIPS) registry.lookup("ips");
         epsNueva.nuevaINS(args[1]);
     }
 
     @Override
-    public int evaluarPaciente(int edad, boolean fiebre,boolean tos,boolean cansancio,boolean dolor,boolean difRespirar, 
+    public int evaluarPaciente(int edad, boolean fiebre,boolean tos,boolean cansancio,boolean dolor,boolean difRespirar,
     boolean insPulmonar, boolean shockSeptico, boolean fallaOrganica, boolean patologia, boolean cirugia) throws RemoteException {
         // TODO Auto-generated method stub
         int peso = 0;
@@ -33,5 +33,5 @@ public class INS implements iINS {
         System.out.println("--------------------> " + peso);
         return peso;
     }
-    
+
 }

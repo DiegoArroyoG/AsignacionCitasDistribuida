@@ -7,8 +7,11 @@ public class sCliente {
     public static void main(String[] args) {
         if (args.length > 1) {
             try {
-                Registry registry = LocateRegistry.getRegistry(args[0], 49154);
+                Registry registry = LocateRegistry.getRegistry(args[0], Configuracion.IPS);
                 iIPS epsNueva = (iIPS) registry.lookup("ips");
+
+                // si hay un segundo argumento, usa ese como puerto
+                int port = args.length >= 2 ? Integer.parseInt(args[2]) : 49155 ;
 
                 Scanner teclado = new Scanner(System.in);
                 String[] line = new String[12];
@@ -38,14 +41,29 @@ public class sCliente {
                 line[11] = teclado.nextLine();
                 teclado.close();
 
-                System.out.println(epsNueva.asignarCita(args[1], line[0].trim(), line[1].trim(), line[2].trim(),
-                        line[3].trim(), line[4].trim(), line[5].trim(), line[6].trim(), line[7].trim(), line[8].trim(),
-                        line[9].trim(), line[10].trim(), line[11].trim()));
+                System.out.println(
+                                   epsNueva.asignarCita(
+                                                        args[1],
+                                                        port,
+                                                        line[0].trim(),
+                                                        line[1].trim(),
+                                                        line[2].trim(),
+                                                        line[3].trim(),
+                                                        line[4].trim(),
+                                                        line[5].trim(),
+                                                        line[6].trim(),
+                                                        line[7].trim(),
+                                                        line[8].trim(),
+                                                        line[9].trim(),
+                                                        line[10].trim(),
+                                                        line[11].trim()
+                                                        )
+                                   );
 
-                registry = LocateRegistry.createRegistry(49155);
+                registry = LocateRegistry.createRegistry(port);
                 Cliente cliente = new Cliente();
                 iCliente rmiCliente = (iCliente) UnicastRemoteObject.exportObject(cliente, 0);
-                registry = LocateRegistry.getRegistry(49155);
+                registry = LocateRegistry.getRegistry(port);
                 registry.bind("cliente", rmiCliente);
 
             } catch (Exception e) {

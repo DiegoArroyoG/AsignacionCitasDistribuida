@@ -13,7 +13,7 @@ public class EPS implements iEPS {
     public EPS(String[] args) throws RemoteException, NotBoundException {
         this.nombre = args[0];
         listaEPS();
-        Registry registry = LocateRegistry.getRegistry(args[1], 49154);
+        Registry registry = LocateRegistry.getRegistry(args[1], Configuracion.IPS );
         iIPS epsNueva = (iIPS) registry.lookup("ips");
         epsNueva.nuevaEPS(this.nombre, args[2]);
     }
@@ -23,7 +23,7 @@ public class EPS implements iEPS {
 
         try {
             Scanner input = new Scanner(new File("listaUsuarios.txt"));
-            while (input.hasNextLine()) {       
+            while (input.hasNextLine()) {
                 line = input.nextLine().split(",");
                 if(line[0].equalsIgnoreCase(this.nombre)){
                     Usuario u1 = new Usuario(line[1].trim(), line[3].trim());
@@ -32,7 +32,7 @@ public class EPS implements iEPS {
             }
         } catch (Exception e){
             System.out.println("Mal");
-        }      
+        }
     }
 
     @Override
