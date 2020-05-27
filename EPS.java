@@ -15,7 +15,7 @@ public class EPS implements iEPS {
         listaEPS();
         Registry registry = LocateRegistry.getRegistry(args[1], Configuracion.IPS );
         iIPS epsNueva = (iIPS) registry.lookup("ips");
-        epsNueva.nuevaEPS(this.nombre, args[2]);
+        epsNueva.nuevaEPS(this.nombre, args[2], args[3]);
     }
 
     public void listaEPS() {

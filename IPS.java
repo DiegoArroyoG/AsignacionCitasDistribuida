@@ -8,7 +8,7 @@ import java.util.List;
 
 public class IPS implements iIPS {
     String insIP;
-    HashMap<String, String> epses = new HashMap<String, String>();
+    HashMap<String, String[]> epses = new HashMap<String, String[]>();
     HashMap<String, Integer> clientes = new HashMap<String, Integer>();
     List<Cita> citas;
 
@@ -17,7 +17,8 @@ public class IPS implements iIPS {
                               String difRespirar, String insPulmonar, String shockSeptico, String fallaOrganica, String patologia, String cirugia)
         throws RemoteException, NotBoundException {
         System.out.println(epses.get(eps));
-        Registry registry = LocateRegistry.getRegistry(epses.get(eps), Configuracion.EPS);
+        Registry registry = LocateRegistry
+            .getRegistry(epses.get(eps)[0], Integer.parseInt(epses.get(eps)[1]) );
         iEPS rmiEps = (iEPS) registry.lookup("eps");
         int edad = Integer.parseInt(rmiEps.verificarExistencia(documento));
         int peso;
@@ -65,6 +66,7 @@ public class IPS implements iIPS {
                 }
                 hora++;
             }
+
             if(hora != this.citas.size())
             {
                 EnviarMensajeCambioCita(this.citas.get(hora), this.citas.size());
@@ -98,9 +100,12 @@ public class IPS implements iIPS {
     }
 
     @Override
-    public boolean nuevaEPS(String nombre, String ip) throws RemoteException {
+    public boolean nuevaEPS(String nombre, String ip, String puerto) throws RemoteException {
         // TODO Auto-generated method stub
-        epses.put(nombre, ip);
+        String direccion[] = new String[2];
+        direccion[0] = ip;
+        direccion[1] = puerto;
+        epses.put(nombre, direccion);
         System.out.println("->" + nombre + "->" + ip);
         return true;
     }
