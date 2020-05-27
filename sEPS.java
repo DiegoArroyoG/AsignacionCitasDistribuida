@@ -11,7 +11,7 @@ public class sEPS {
 
                 EPS eps = new EPS(args);
                 iEPS rmiEPS = (iEPS) UnicastRemoteObject.exportObject(eps, 0);
-                registry = LocateRegistry.getRegistry(args[3]);
+                registry = LocateRegistry.getRegistry(Integer.parseInt(args[3]));
                 registry.bind("eps", rmiEPS);
 
             } catch (Exception e) {

@@ -55,6 +55,7 @@ public class IPS implements iIPS {
         if (citas.isEmpty() || !prioritaria)
         {
             citas.add(new Cita(ip, puerto, documento, prioritaria) );
+            hora = citas.size();
         }
         else // esta es prioritaria
         {
